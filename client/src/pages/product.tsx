@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@nextui-org/button";
 import { Select, SelectItem, SelectSection } from "@nextui-org/select";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Slider } from "@nextui-org/slider";
 import { Badge } from "@nextui-org/badge";
-import { IconShoppingCart, IconStar } from "@tabler/icons-react";
+import { IconShoppingCart } from "@tabler/icons-react";
 import DefaultLayout from "@/layouts/default";
+
 
 const products = [
   {
@@ -15,6 +17,7 @@ const products = [
     category: "Dairy & Eggs",
     rating: 4.5,
     producer: "Happy Hens Farm",
+    image: "/image1.jpg",
   },
   {
     id: 2,
@@ -23,6 +26,7 @@ const products = [
     category: "Vegetables",
     rating: 4.2,
     producer: "Sunshine Organics",
+    image: "/image2.jpg",
   },
   {
     id: 3,
@@ -31,6 +35,7 @@ const products = [
     category: "Bakery",
     rating: 4.8,
     producer: "Local Loaves",
+    image: "/image3.jpg",
   },
   {
     id: 4,
@@ -39,6 +44,7 @@ const products = [
     category: "Meat",
     rating: 4.6,
     producer: "Green Pastures Ranch",
+    image: "/image4.jpg",
   },
   {
     id: 5,
@@ -47,6 +53,7 @@ const products = [
     category: "Pantry",
     rating: 4.9,
     producer: "Busy Bees Apiary",
+    image: "/image5.jpg",
   },
   {
     id: 6,
@@ -55,6 +62,7 @@ const products = [
     category: "Dairy & Eggs",
     rating: 4.3,
     producer: "Mountain Meadow Dairy",
+    image: "/image6.jpg",
   },
 ];
 
@@ -122,10 +130,15 @@ export default function ProductSection() {
                   <Slider
                     label="Price Range"
                     step={0.01}
-                    maxValue={1}
+                    maxValue={10}
                     minValue={0}
-                    defaultValue={0.4}
+                    defaultValue={priceRange}
                     className="w-full"
+                    onChange={(value) => {
+                      if (Array.isArray(value)) {
+                        setPriceRange(value);
+                      }
+                    }}
                   />
                   <div className="flex justify-between mt-2 text-sm text-gray-500">
                     <span>${priceRange[0].toFixed(2)}</span>
@@ -140,7 +153,7 @@ export default function ProductSection() {
                 <p className="text-sm text-gray-500">
                   {filteredProducts.length} products found
                 </p>
-                <Select onSelect={(value) => setSortBy("")} className="w-1/3">
+                <Select onSelect={(event) => setSortBy((event.target as HTMLSelectElement).value)} className="w-1/3">
                   <SelectSection>
                     <SelectItem key={"1"} value="name">
                       Name
@@ -159,23 +172,19 @@ export default function ProductSection() {
                 {filteredProducts.map((product) => (
                   <Card key={product.id}>
                     <CardHeader>
+                      <Link to={`/product/${product.id}`}>
                       <img
-                        src={`/image1.jpg`}
+                        src={product.image}
                         alt={product.name}
                         className="w-full h-48 object-cover rounded-md"
                       />
+                      </Link>
                     </CardHeader>
                     <CardBody>
                       <CardHeader>{product.name}</CardHeader>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         {product.producer}
                       </p>
-                      <div className="flex items-center mt-2">
-                        <IconStar className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="ml-1 text-sm font-medium">
-                          {product.rating.toFixed(1)}
-                        </span>
-                      </div>
                       <Badge variant="solid" className="mt-2">
                         {product.category}
                       </Badge>

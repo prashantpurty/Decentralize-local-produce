@@ -21,6 +21,10 @@ export const siteConfig = {
       href: "/producer",
     },
     {
+      label:"Seller",
+      href:"/seller",
+    },
+    {
       label: "About",
       href: "/about",
     },

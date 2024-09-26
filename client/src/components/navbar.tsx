@@ -1,4 +1,3 @@
-import { Button } from "@nextui-org/button";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "react-router-dom";
 import { Input } from "@nextui-org/input";
